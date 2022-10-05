@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>css 실습 문제</title>
+	<style type="text/css">
+
+	section h1 {
+		background-color: red;
+	}
+
+	section > h1 {
+		background-color: green;
+	}
+
+	h1 + p {
+		background-color:black;
+		color: white;
+	}
+
+	footer {
+		background-color:#010101;
+		color: white;
+		font-size: 28px;
+	}
+
+	.boldstyle {
+		font-weight: bold;
+		font-size: 24px;
+		color: yellow;
+	}
+
+	#onlyone {
+		color: red;
+		font-weight: bold;
+		font-size: 30px;
+	}
+	</style>
+</head>
+<body>
+
+<header>
+	<h1> CSS 기본 연습문제</h1>
+</header>
+
+<section>
+
+	<br><hr>
+
+	<h1>문제1</h1>
+	<p>어떤 선택자를 써야 할지를 생각해보세요</p>
+	
+	<div>
+		<h1>어떤 패턴이 존재하는지 천천히 살펴보세요</h1>
+	</div>
+
+	<br><hr>
+
+	<h1>문제2</h1>
+	<p>어떻게 하면 최소한으로 쓸 수 있을지 생각해보세요</p>
+
+	<br><hr>
+
+	<article>
+		<p>예외적인 걸 어떻게 처리할지도 생각해보세요 </p>
+	</article>
+
+	<br><hr>
+
+	<article>
+		<h2 class="boldstyle">클래스는 어떨때 사용하면 좋을까요?</h2>
+		<p>클래스는 동일한 속성을 여러 군데 적용하고 싶을 때 많이 사용합니다.</p>
+	</article>
+
+	<br><hr>
+
+	<article>
+		<h2 class="boldstyle">아이디는 어떨때 사용하면 좋을까요?</h2>
+		<p>아이디는 속성을 <span id="onlyone">한군데</span> 적용하고 싶을 때 많이 사용합니다.</p>
+	</article>
+
+</section>
+
+<br><hr>
+
+<footer>
+	<p>copyright@99 폰트크기는 28px 입니다.</p>
+</footer>
+
+</body>
+</html>
