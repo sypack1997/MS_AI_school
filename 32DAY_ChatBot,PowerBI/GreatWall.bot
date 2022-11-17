@@ -1,0 +1,18 @@
+{
+    "name": "GreateWall2",
+    "description": "",
+    "services": [
+        {
+            "type": "endpoint",
+            "name": "http://localhost:3984/api/messages",
+            "id": "6f1d1d00-664c-11ed-826d-69233338fd1a",
+            "appId": "",
+            "appPassword": "",
+            "endpoint": "http://localhost:3984/api/messages"
+        }
+    ],
+    "padlock": "",
+    "version": "2.0",
+    "path": "C:\\Users\\sypack1997\\Documents\\GreatWall.bot",
+    "overrides": null
+}
