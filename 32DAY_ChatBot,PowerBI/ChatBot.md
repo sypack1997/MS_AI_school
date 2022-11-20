@@ -6,7 +6,7 @@
 
 ## 2. Code
 1. 메세지 주고 받기
-
+```python
           private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<object> result)
         {
             var activity = await argument as Activity;
@@ -17,18 +17,18 @@
 
             context.Wait(MessageReceivedAsync);
         }
-
+```
 2. 인사기능 구현
-  
+```python  
           private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<object> result)
         {
             await context.PostAsync("안녕하세요 신속배달 만리장성 봇 입니다. 주문하시려는 음식을 입력해 주세요");
 
             context.Wait(SendWelcomeMessageAsync);
         }
-        
+```        
 3. 인사 기능 구현2
-
+```python
           private async Task SendWelcomeMessageAsync(IDialogContext context, IAwaitable<object> result)
         {
             var activity = await result as Activity;
@@ -38,12 +38,11 @@
 
             context.Wait(SendWelcomeMessageAsync);
         }
-        
+```        
 4. Dialog 구현
-
+```python
   	string WelcomeMessage = "안녕하세요 만리장석 봇입니다. 1.주문 2.FAQ 중에 선택하세요";
-
-
+	
         private async Task SendWelcomeMessageAsync(IDialogContext context, IAwaitable<object> result)
         {
             var activity = await result as Activity;
@@ -67,10 +66,10 @@
             }
             
         }
-        
+```        
 5. Order Dialog
-
-  using System;
+```python
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -110,9 +109,9 @@ namespace GreatWall.Dialogs
         }
     }
 }
-
+```
 6. DialogResumeAfter() 추가
-
+```python
           private async Task DialogResumeAfter(IDialogContext context, IAwaitable<string> result)
         {
             try
@@ -126,9 +125,9 @@ namespace GreatWall.Dialogs
                 await context.PostAsync("오류가 생겼습니다. 죄송합니다.");
             }
         }
-  
+```  
 7. 최종
-  
+```python  
   using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -167,9 +166,9 @@ namespace GreatWall.Dialogs
         }
     }
 }
-  
+```  
 8. Card 형태의 RootDiaglog.cs
-  
+```python  
   	using System.Collections.Generic;
 
 
@@ -197,3 +196,4 @@ namespace GreatWall.Dialogs
 
             context.Wait(SendWelcomeMessageAsync);
         }
+```
