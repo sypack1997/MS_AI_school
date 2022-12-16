@@ -38,9 +38,9 @@ class CatDataset(Dataset):
 ## data aug transforms
 torchvision_transform = transforms.Compose([
     transforms.Resize((256,256)),
-    transforms.RandomCrop(224),
+    #transforms.RandomCrop(224),
     transforms.RandomHorizontalFlip(),
-    transforms.RandomVerticalFlip(),
+    #transforms.RandomVerticalFlip(),
     transforms.ToTensor()
 ])
 

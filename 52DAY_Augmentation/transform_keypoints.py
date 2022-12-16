@@ -25,7 +25,7 @@ keypoints = [
 KEYPOINT_COLOR = (0, 255, 0)  # green
 
 
-def vis_keypoints(image, keypoints, color=KEYPOINT_COLOR, diameter=5):
+def vis_keypoints(image, keypoints, color=KEYPOINT_COLOR, diameter=2):
     image = image.copy()
     for (x, y, s, a) in keypoints:
         print(x, y, s, a)
@@ -43,7 +43,7 @@ image = cv2.imread("./keypoints_image.jpg")
 # image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
 transform = A.Compose([
-    A.Rotate(p=1),
+    A.ShiftScaleRotate(p=1),
 ], keypoint_params=A.KeypointParams(format='xysa', angle_in_degrees=False))
 
 transformed = transform(image=image, keypoints=keypoints)
