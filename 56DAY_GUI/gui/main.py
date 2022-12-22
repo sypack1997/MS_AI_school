@@ -101,8 +101,9 @@ class Ui_MainWindow(QMainWindow):
         icon.addFile(u":/ann/paint.png", QSize(), QIcon.Normal, QIcon.Off)
         self.paint.setIcon(icon)
         self.paint.setIconSize(QSize(25, 25))
-        self.paint.clicked.connect(self.clicked_paint)
-        self.paint.setShortcut(QCoreApplication.translate("MainWindow", u"N", None))
+        self.paint.clicked.connect(self.clicked_paint)# 버튼 클릭 시 동작
+        self.paint.setShortcut(QCoreApplication.translate("MainWindow", u"N", None))# N 단축키 입력 시 버튼 동작 실행
+
 
         self.verticalLayout_2.addWidget(self.paint)
 

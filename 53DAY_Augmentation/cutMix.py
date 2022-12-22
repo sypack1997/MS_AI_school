@@ -63,3 +63,7 @@ def cutmix(path, index, imsize):
         return_img[y1a:y2a, x1a:x2a] = image[y1b:y2b, x1b:x2b]
 
     return return_img
+
+test = cutmix(image_path, 3, image_size)
+plt.imshow(test)
+plt.show()
