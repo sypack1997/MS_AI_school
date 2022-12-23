@@ -5,6 +5,7 @@ import albumentations as A
 from albumentations.pytorch import ToTensorV2
 from dataset_temp import custom_dataset
 from torch.utils.data import DataLoader
+import torch.nn as nn
 
 def acc_function(correct, total):
     acc = correct / total * 100
@@ -33,11 +34,16 @@ def main():
     # val aug
     test_transform = A.Compose([
         A.Resize(224,224),
+        A.HorizontalFlip(p=1),
+        A.RandomRotate90(p=1),
+        A.VerticalFlip(p=1),
         ToTensorV2()
     ])
 
     device = torch.device("cpu")
-    net = models.__dict__["resnet18"](pretrained=False, num_classes=5)
+    net = models.__dict__["resnet18"](pretrained = True)
+    # net = models.__dict__["resnet18"](pretrained=False, num_classes=5)
+    net.fc = nn.Linear(512, 5)
     net = net.to(device)
 
     net.load_state_dict(torch.load("./model_save/final.pt", map_location=device))

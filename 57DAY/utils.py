@@ -60,7 +60,7 @@ def train(number_epoch, train_loader, val_loader, criterion, optimizer, model, s
             save_model(model, save_dir, file_name=f"{epoch}.pt")
 
         # best save
-        if val_acc > best_loss:
+        if avg_loss > best_loss:
             print(f"best save >>> {epoch}")
             best_loss = val_acc
             save_model(model, save_dir, file_name = "best.pt")

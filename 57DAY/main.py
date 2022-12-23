@@ -15,6 +15,9 @@ device = torch.device("cpu")
 # train aug
 train_transform = A.Compose([
     A.Resize(height=224, width=224),
+    A.HorizontalFlip(p=1),
+    A.RandomRotate90(p=1),
+    A.VerticalFlip(p=1),
     ToTensorV2()
 ])
 
@@ -34,10 +37,10 @@ val_loader = DataLoader(val_dataset, batch_size=hy_parameter.batch_size, shuffle
 
 
 # model call
-# net = models.__dict__["resnet18"](pretrained = False, hy_parameters.num_classes)
+# net = models.__dict__["resnet18"](pretrained = False, num_classes = hy_parameter.num_classes) # -> not pretrained
 net = models.__dict__["resnet18"](pretrained = True)
 
-# pretrained = True ; num_classes:5 수정 방법
+# pretrained = True일때 ; num_classes:5 수정 방법
 net.fc = nn.Linear(512, 5)
 net.to(device)
 
