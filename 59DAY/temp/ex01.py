@@ -6,42 +6,40 @@ import torch.optim as optim
 # 랜덤 시드 설정
 torch.manual_seed(1)
 
-# 실습을 위한 기본셋팅 훈련데이터 x_train, y_train 선언
+# 실습을 위한 기본셋팅 훈련데이터 x_train , y_train 을 선언
 x_train = torch.FloatTensor(([1], [2], [3]))
 y_train = torch.FloatTensor(([2], [4], [6]))
 
-# x_train의 shape 출력
-# print(x_train, x_train.shape)
-# print(y_train, y_train.shape)
-'''
+# x_train 와 shape 출력
+# print(x_train, x_train.shape)  # shape or size
+# print(y_train, y_train.shape)  # shape or size
+"""
 tensor([[1.],
         [2.],
         [3.]]) torch.Size([3, 1])
 tensor([[2.],
         [4.],
         [6.]]) torch.Size([3, 1])
-'''
+"""
 
 # 가중치와 편향의 초기화 직선 -> w and b
-# requires_grad = True -> 학습을 통해 계속 값이 변경되는 변수
+# requires_grad=True -> 학습을 통해 계속 값이 변경되는 변수
 w = torch.zeros(1, requires_grad=True)
-# print(W)
 b = torch.zeros(1, requires_grad=True)
 
 # 가설 세우기
 # 직선의 방정식
 hypothesis = x_train * w + b
-# print(hypothesis)
 
-# loss function 선언
+# loss fn 선언 하기
 # 평균 제곱 오차 선언
 loss = torch.mean((hypothesis - y_train) ** 2)
 # print(loss)
 
-# 경사하강법 구현
-optimizer = optim.SGD([w,b], lr=0.01)
+# 경사하강법 구현 하기
+optimizer = optim.SGD([w, b], lr=0.01)
 
-# 기울기 0으로 초기화
+# 기울기 0 으로 초기화
 optimizer.zero_grad()
 loss.backward()
 
@@ -51,6 +49,7 @@ epoch_num = 2000
 # epoch : 전체 훈련 데이터가 학습에 한번 사용된 주기
 # train loop
 for epoch in range(epoch_num+1):
+
     # 1. 가설 -> model
     hypothesis = x_train * w + b
 
@@ -62,12 +61,13 @@ for epoch in range(epoch_num+1):
     loss.backward()
     optimizer.step()
 
-    # 100번 마다
+    # 100 번 마다
     if epoch % 100 == 0:
         print("Epoch {:4d}/{} W : {:.3f} b : {:.3f} loss : {:.6f}".format(
             epoch, epoch_num, w.item(), b.item(), loss.item()
         ))
-'''
+
+"""
 Epoch    0/2000 W : 0.187 b : 0.080 loss : 18.666666
 Epoch  100/2000 W : 1.746 b : 0.578 loss : 0.048171
 Epoch  200/2000 W : 1.800 b : 0.454 loss : 0.029767
@@ -89,5 +89,4 @@ Epoch 1700/2000 W : 1.995 b : 0.012 loss : 0.000022
 Epoch 1800/2000 W : 1.996 b : 0.010 loss : 0.000013
 Epoch 1900/2000 W : 1.997 b : 0.008 loss : 0.000008
 Epoch 2000/2000 W : 1.997 b : 0.006 loss : 0.000005
-'''
-
+"""

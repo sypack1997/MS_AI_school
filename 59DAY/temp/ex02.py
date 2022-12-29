@@ -20,7 +20,7 @@ b = torch.zeros(1, requires_grad=True)
 # optimizer 1e-04 - 0.0001 0.00001
 optimizer = optim.SGD([w1, w2, w3, b], lr=1e-5)
 
-# 학습 몇번 진행할래 ?
+# 학습 몇번 진행할래
 epoch_num = 10000
 for epoch in range(epoch_num + 1):
 

@@ -1,7 +1,13 @@
+"""
+dataset 
+    - mnist.py
+"""
 from dataset.mnist import load_mnist
 import matplotlib.pyplot as plt
-from optimizer import * 
+from optimizer import *  # 직접 제작한 optimizer 모듈 로드
 from util import *
+from multi_layer_net import MultiLayerNet
+from optimizer import *
 
 # 0 MNIST 데이터 읽기
 (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True)
@@ -19,12 +25,12 @@ optimizers['Adam'] = Adam(lr=0.3)
 
 networks = {}
 train_loss = {}
-# for key in optimizers.keys():
-#     networks[key] = MultiLayerNet(
-#         input_size=784, hidden_size_list=[100, 100, 100, 100]
-#         output_size=10
-#     )
-#     train_loss[key] = []
+for key in optimizers.keys():
+    networks[key] = MultiLayerNet(
+        input_size=784, hidden_size_list=[100, 100, 100, 100],
+        output_size=10
+    )
+    train_loss[key] = []
 
 # 2 train ....
 for i in range(max_iterations):
@@ -40,6 +46,7 @@ for i in range(max_iterations):
         train_loss[key].append(loss)
 
     if i % 100 == 0:
+        print("i >> ", i)
         for key in optimizers.keys():
             loss = networks[key].loss(x_batch, t_batch)
             print(key + ":" + str(loss))
