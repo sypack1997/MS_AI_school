@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-class MetricMonitor():
+class MetricMonitor:
     def __init__(self, float_precision=3):
         self.float_precision = float_precision
         self.rest()
@@ -15,7 +15,7 @@ class MetricMonitor():
         metrics["avg"] += metrics["val"] / metrics["count"]
 
     def __str_(self):
-        return "|".join(
+        return " | ".join(
             [
                 "{metric_name} : {avg.{float_precision}f}".format(
                     metric_name = metric_name, avg = metrics["avg"], float_precision = self.float_precision

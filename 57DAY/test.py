@@ -31,7 +31,7 @@ def test(model, test_loader, device):
 ## final.pt를 바탕으로 test acc 확인
 
 def main():
-    # val aug
+    # test aug
     test_transform = A.Compose([
         A.Resize(224,224),
         A.HorizontalFlip(p=1),

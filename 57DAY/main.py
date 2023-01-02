@@ -24,6 +24,9 @@ train_transform = A.Compose([
 # val aug
 val_transform = A.Compose([
     A.Resize(height=224, width=224),
+    A.HorizontalFlip(p=1),
+    A.RandomRotate90(p=1),
+    A.VerticalFlip(p=1),
     ToTensorV2()
 ])
 
