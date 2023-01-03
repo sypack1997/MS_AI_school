@@ -47,14 +47,14 @@ water_val_data, water_test_data = train_test_split(water_val_list, test_size=0.5
 def data_save(data, mode) :
     for path in data :
         # image name
-        image_name = os.path.basename(path)
-        image_name = image_name.replace(".jpg", "")
+        image_name = os.path.basename(path) #  "~~.jpg"
+        image_name = image_name.replace(".jpg", "") # "~~"
 
         # 0. 폴더명 구하기
         folder_name = path.split("\\")
         folder_name = folder_name[0].split("/")
         print(folder_name)
-        folder_name = folder_name[2]
+        folder_name = folder_name[2] # cloudy
         # 1. 폴더 구성
         folder_path = f"./dataset/{mode}/{folder_name}"
         os.makedirs(folder_path, exist_ok=True)

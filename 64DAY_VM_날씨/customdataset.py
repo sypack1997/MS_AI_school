@@ -18,19 +18,15 @@ class customDataset(Dataset) :
     def __getitem__(self, item):
         # img = self.img_list[item]
         # print(img)
-        img_path = self.all_image_path[item]
+        img_path = self.all_image_path[item] # ./dataset/train\cloudy\train_10021.png
         label_temp = img_path.split("\\")
-        label = self.label_dic[label_temp[1]]
+        label = self.label_dic[label_temp[1]] # 0
         img = Image.open(img_path)
 
         if self.transform is not None:
             img = self.transform(img)
 
-        return img, label
+        return img, label # ./dataset/train\cloudy\train_10021.png, 0
 
     def __len__(self):
         return len(self.all_image_path)
-
-# test = customDataset("./dataset/train", transform=None)
-# for i in test :
-#     print(i)
