@@ -13,6 +13,7 @@ from timm.loss import LabelSmoothingCrossEntropy
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+# Augmentation
 train_transforms = A.Compose([
     A.SmallestMaxSize(max_size=224),
     A.ShiftScaleRotate(shift_limit=0.08, scale_limit=0.08, rotate_limit=20,
@@ -29,44 +30,48 @@ val_transforms = A.Compose([
     A.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.255)),
     ToTensorV2()
 ])
+test_transforms = A.Compose([
+    A.SmallestMaxSize(max_size=224),
+    A.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.255)),
+    ToTensorV2()
+])
 
 
 # dataset
 train_dataset = my_customdata("./dataset/train/", transform=train_transforms)
 val_dataset = my_customdata("./dataset/valid/", transform=val_transforms)
-test_dataset = my_customdata("./dataset/test/", transform=val_transforms)
+test_dataset = my_customdata("./dataset/test/", transform=test_transforms)
 
 
 # dataloader
-train_loader = DataLoader(train_dataset, batch_size=340, shuffle=True,
+train_loader = DataLoader(train_dataset, batch_size=360, shuffle=True,
                           num_workers=2, pin_memory=True)
-val_loader = DataLoader(val_dataset, batch_size=340, shuffle=False,
+val_loader = DataLoader(val_dataset, batch_size=360, shuffle=False,
                         num_workers=2, pin_memory=True)
-test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False,
-                        num_workers=2, pin_memory=True)
+test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False)
 
 
-model = torch.hub.load('facebookresearch/deit:main',
-                       'deit_tiny_patch16_224', pretrained=True)
-model.head = nn.Linear(in_features=192, out_features=100)
-model.to(device)
+# model
+# model = torch.hub.load('facebookresearch/deit:main', 'deit_tiny_patch16_224', pretrained=True)
+# model.head = nn.Linear(in_features=192, out_features=100)
 # model = torchvision.models.resnet50(pretrained=True)
 # model.fc = torch.nn.Linear(in_features=2048, out_features=100)
-# model.to(device)
-# model = torchvision.models.swin_b(weights = "IMAGENET1K_V1")
-# model.head = nn.Linear(in_features=1024, out_features=100)
-# model.to(device)
+model =  torchvision.models.swin_t(weights="IMAGENET1K_V1")
+model.head = torch.nn.Linear(in_features=768, out_features=100)
+model.to(device)
 
 criterion = LabelSmoothingCrossEntropy()
-optimizer = torch.optim.Adam(model.head.parameters(), lr=0.01) # CNN기반 Text로 만들어진 이미지 분류 (torch.hub.load) -> batch_szie를 메모리 꽉차게 주는 것이 효율 좋다.
-# optimizer = torch.optim.Adam(parameters(), lr=0.01)
+# optimizer = torch.optim.AdamW(model.head.parameters(), lr=0.01)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+
 
 # lr scheduler
-exp_lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=3,
-                                                   gamma=0.95)
+exp_lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=30,
+                                                   gamma=0.1)
 
 
-def train(model, criterion, train_loader, val_loader, optimizer, scheduler, num_epochs=20,
+# train
+def train(model, criterion, train_loader, val_loader, optimizer, scheduler, num_epochs=100,
           device=device) :
     total = 0
     best_loss = 9999
@@ -108,6 +113,7 @@ def train(model, criterion, train_loader, val_loader, optimizer, scheduler, num_
     model.load_state_dict(best_model_wts)
 
 
+# val
 def validation(epoch, model, val_loader, criterion, device) :
     print("Start validation # {}" .format(epoch+1))
 
@@ -142,37 +148,40 @@ def validation(epoch, model, val_loader, criterion, device) :
     return avrg_loss, val_acc
 
 
-def save_model(model, save_dir, file_name = "best.pt") :
+# save model
+def save_model(model, save_dir, file_name = "best_resnet.pt") :
     output_path = os.path.join(save_dir,file_name)
     torch.save(model.state_dict(), output_path)
 
 
-def test(model, test_loader,device):
+# test
+def test(model, test_loader, device) :
     model.eval()
     correct = 0
     total = 0
-    with torch.no_grad():
-        for i, (image,laber) in enumerate(test_loader):
+    with torch.no_grad() :
+        for i, (image, labels) in enumerate(test_loader) :
             image, labels = image.to(device), labels.to(device)
             output = model(image)
-            _, argmax = torch.max(output, 1)
+            _, argmax = torch.max(output,1)
             total += image.size(0)
             correct += (labels == argmax).sum().item()
 
         acc = correct / total * 100
-        print("acc for {} image : {:.2f}%".format(total, acc))
+        print("acc for {} image : {:.2f}%".format(
+            total, acc
+        ))
+
 
 
 if __name__ == "__main__" :
+    # model.load_state_dict(torch.load("./best_resnet.pt", map_location=device))
+    # test(model, test_loader, device)
 
     train(model, criterion,train_loader, val_loader, optimizer,
           scheduler=exp_lr_scheduler, device=device)
 
-    # model.load_state_dict(torch.load("./temp/best.pt", map_location=device))
-    # test(model, test_loader, device) # shuffle = False로 변경할것
-
-
 '''
 변수
-lr, scheduler, models, optimizer, gamma
+Batch_size, Optimizer, lr, Step_size, Epoch, LossF, model
 '''

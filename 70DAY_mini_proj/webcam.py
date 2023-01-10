@@ -25,10 +25,10 @@ while webcam.isOpened():
     cv2.imshow("captured frames", frame)
 
     if sample_num == 4:
-        captured_num = captured_num + 1
-        # cv2.imwrite('./rock/img'+str(captured_num)+'.jpg', frame) # 바위 이미지 수집시
+        captured_num = captured_num + 454
+        cv2.imwrite('./rock/img'+str(captured_num)+'.jpg', frame) # 바위 이미지 수집시
         # cv2.imwrite('./paper/img'+str(captured_num)+'.jpg', frame) # 보 이미지 수집시
-        cv2.imwrite('./ㅏ/img'+str(captured_num)+'.png', frame) # 가위 이미지 수집시
+        # cv2.imwrite('./ㅏ/img'+str(captured_num)+'.jpg', frame) # 가위 이미지 수집시
         sample_num = 0
 
 
