@@ -1,0 +1,10 @@
+train : ./dataset/train/images
+val : ./dataset/val/images
+test: ./dataset/test/images
+
+# Classes
+names:
+  0: player
+  1: ball
+  2: keeper
+  3: referee
